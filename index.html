@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OYLA Studio | Cognitive AI Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="glow-orb orb-1" aria-hidden="true"></div>
+    <div class="glow-orb orb-2" aria-hidden="true"></div>
+
+    <div class="app-layout">
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <div class="brand-badge">
+            <span class="brand-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+            </span>
+            <span class="brand-name">OYLA</span>
+            <span class="brand-tag">Studio</span>
+          </div>
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Gemini Engine Ready</span>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" id="navTabs">
+          <button class="nav-tab active" data-view="prompt-lab">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+            Prompt Lab
+          </button>
+          <button class="nav-tab" data-view="canvas">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+            Cognitive Canvas
+          </button>
+          <button class="nav-tab" data-view="deploy-status">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+            Deploy Diagnostics
+          </button>
+        </nav>
+
+        <div class="header-right">
+          <a
+            href="https://github.com/mushafkhan295-sudo/OYLA-1"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="header-link"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+            <span>GitHub</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Views -->
+      <main class="app-main">
+        <!-- VIEW 1: Prompt Lab -->
+        <section class="view-panel active" id="view-prompt-lab">
+          <div class="workspace-grid">
+            <!-- Left Config Sidebar -->
+            <aside class="panel config-panel">
+              <div class="panel-header">
+                <h3>Parameters</h3>
+                <span class="badge">Model: 1.5 Pro</span>
+              </div>
+
+              <div class="control-group">
+                <label for="templateSelect">Prompt Template</label>
+                <select id="templateSelect" class="form-select">
+                  <option value="architect">Full-Stack Application Architect</option>
+                  <option value="cot">Deep Chain-of-Thought Reasoner</option>
+                  <option value="schema">Relational & Document Schema Builder</option>
+                  <option value="explain">Complex System Explainer</option>
+                </select>
+              </div>
+
+              <div class="control-group">
+                <div class="control-label-row">
+                  <label for="tempSlider">Temperature</label>
+                  <span class="val-display" id="tempVal">0.7</span>
+                </div>
+                <input
+                  type="range"
+                  id="tempSlider"
+                  min="0.0"
+                  max="1.5"
+                  step="0.05"
+                  value="0.7"
+                  class="slider"
+                />
+              </div>
+
+              <div class="control-group">
+                <div class="control-label-row">
+                  <label for="topPSlider">Top-P Sampling</label>
+                  <span class="val-display" id="topPVal">0.95</span>
+                </div>
+                <input
+                  type="range"
+                  id="topPSlider"
+                  min="0.1"
+                  max="1.0"
+                  step="0.05"
+                  value="0.95"
+                  class="slider"
+                />
+              </div>
+
+              <div class="control-group">
+                <label for="systemInstruction">System Instructions</label>
+                <textarea
+                  id="systemInstruction"
+                  rows="3"
+                  class="form-textarea mono"
+                  placeholder="Guiding persona and constraints..."
+                >You are OYLA, an advanced cognitive architectural agent powered by Gemini. You decompose complex requirements into clear, elegant, and modular software specifications.</textarea>
+              </div>
+
+              <div class="panel-footer-stats">
+                <div class="metric">
+                  <span class="metric-label">Context Limit</span>
+                  <span class="metric-val">1,048,576 tokens</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Target Engine</span>
+                  <span class="metric-val">Vite / Netlify Edge</span>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Center Interactive Studio -->
+            <div class="panel studio-panel">
+              <div class="panel-header">
+                <h3>Workspace Input</h3>
+                <div class="action-buttons">
+                  <button class="btn btn-secondary" id="clearBtn">
+                    Clear
+                  </button>
+                  <button class="btn btn-primary" id="runBtn">
+                    <span class="btn-spinner" id="btnSpinner"></span>
+                    <span id="runBtnText">Synthesize Idea</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="prompt-input-area">
+                <textarea
+                  id="promptInput"
+                  class="prompt-textarea"
+                  rows="4"
+                  placeholder="Describe your idea or technical challenge..."
+                >Design a high-performance web architecture for real-time collaborative idea synthesis with automated deployment to Netlify.</textarea>
+              </div>
+
+              <div class="output-container">
+                <div class="output-header">
+                  <div class="output-title-group">
+                    <span class="output-title">Synthesis Stream</span>
+                    <span class="stream-pill" id="streamPill">Idle</span>
+                  </div>
+                  <div class="output-actions">
+                    <button class="btn-icon" id="copyBtn" title="Copy output">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                      <span id="copyFeedback">Copy</span>
+                    </button>
+                    <button class="btn-icon" id="pushCanvasBtn" title="Send to Canvas">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                      </svg>
+                      <span>Send to Canvas</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="output-viewport" id="outputViewport">
+                  <div class="reasoning-steps" id="reasoningSteps"></div>
+                  <div class="output-body" id="outputContent">
+                    Click "Synthesize Idea" to generate an architectural breakdown and live cognitive analysis.
+                  </div>
+                </div>
+
+                <div class="output-footer">
+                  <span id="tokenCount">0 tokens</span>
+                  <span id="latencyStat">Latency: ~240ms</span>
+                  <span id="engineStat">Vite + ESM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 2: Cognitive Canvas -->
+        <section class="view-panel" id="view-canvas">
+          <div class="canvas-header-bar">
+            <div>
+              <h2>Interactive Thought Canvas</h2>
+              <p class="subtitle">Assemble cognitive blocks, structure architecture pipelines, and export to markdown.</p>
+            </div>
+            <div class="canvas-actions">
+              <button class="btn btn-secondary" id="addNodeBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+                Add Thought Node
+              </button>
+              <button class="btn btn-secondary" id="exportMarkdownBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Export MD
+              </button>
+              <button class="btn btn-secondary" id="exportJsonBtn">Export JSON</button>
+            </div>
+          </div>
+
+          <div class="nodes-grid" id="nodesContainer">
+            <!-- Populated dynamically by main.js -->
+          </div>
+        </section>
+
+        <!-- VIEW 3: Deploy Diagnostics -->
+        <section class="view-panel" id="view-deploy-status">
+          <div class="diagnostics-wrapper">
+            <div class="diag-hero">
+              <div class="diag-badge-success">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                Configuration Validated
+              </div>
+              <h2>Netlify Build System Diagnostics</h2>
+              <p class="subtitle">
+                Resolved previous deploy failure caused by malformed build command syntax.
+              </p>
+            </div>
+
+            <div class="diag-cards-row">
+              <div class="diag-card error-card">
+                <div class="card-title-row">
+                  <span class="dot red"></span>
+                  <h4>Previous Failing State</h4>
+                </div>
+                <div class="code-snippet">
+                  <code>build.command: bun run build ya npm run build</code>
+                </div>
+                <p class="card-desc">
+                  The Netlify UI setting contained natural language phrasing (<code>"ya"</code> = Hindi/Urdu for "or"), which caused the package runner to search for an invalid script named <code>"build ya npm run build"</code>.
+                </p>
+              </div>
+
+              <div class="diag-card success-card">
+                <div class="card-title-row">
+                  <span class="dot green"></span>
+                  <h4>Repository Override Applied</h4>
+                </div>
+                <div class="code-snippet">
+                  <code>netlify.toml → [build] command = "npm run build"</code>
+                </div>
+                <p class="card-desc">
+                  Defined version-controlled <code>netlify.toml</code> in the repository root. Netlify's build engine automatically prioritizes <code>netlify.toml</code> over UI dashboard settings.
+                </p>
+              </div>
+
+              <div class="diag-card info-card">
+                <div class="card-title-row">
+                  <span class="dot blue"></span>
+                  <h4>Artifact Publishing</h4>
+                </div>
+                <div class="code-snippet">
+                  <code>publish = "dist"</code>
+                </div>
+                <p class="card-desc">
+                  Configured Vite compiler to bundle optimized static assets directly into <code>dist</code>, matching Netlify's CDN distribution target.
+                </p>
+              </div>
+            </div>
+
+            <div class="config-inspector">
+              <div class="inspector-header">
+                <h3>Live netlify.toml Configuration</h3>
+                <span class="badge">Version Controlled</span>
+              </div>
+              <pre class="inspector-code"><code>[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200</code></pre>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="footer-left">
+          <span>OYLA-1 &bull; Powered by Google AI Studio & Gemini</span>
+        </div>
+        <div class="footer-right">
+          <span>Deployment: Netlify Continuous Delivery</span>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
